@@ -21,17 +21,19 @@ dependencies {
 
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
-	implementation("com.h2database:h2:2.1.214")
+	implementation("com.h2database:h2:2.1.214") // TODO use normal db
 
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
 
 	implementation("com.google.guava:guava:31.1-jre")
+	implementation("commons-validator:commons-validator:1.7")
 
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("com.h2database:h2:2.1.214")
 }
 
 tasks.test {
