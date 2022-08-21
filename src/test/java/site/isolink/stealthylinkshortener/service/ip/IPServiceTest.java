@@ -7,11 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(properties = { "restricted-country-codes=RU,BY" })
-class IPServiceImplTest {
+class IPServiceTest {
     private final IPService ipService;
 
     @Autowired
-    IPServiceImplTest(IPService ipService) {
+    IPServiceTest(IPService ipService) {
         this.ipService = ipService;
     }
 

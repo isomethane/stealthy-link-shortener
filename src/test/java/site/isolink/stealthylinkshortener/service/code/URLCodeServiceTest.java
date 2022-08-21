@@ -1,6 +1,8 @@
 package site.isolink.stealthylinkshortener.service.code;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import site.isolink.stealthylinkshortener.exception.IllegalURLCodeException;
 
 import java.io.IOException;
@@ -10,8 +12,14 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class URLCodeServiceImplTest {
-    private final URLCodeService urlCodeService = new URLCodeServiceImpl();
+@SpringBootTest
+class URLCodeServiceTest {
+    private final URLCodeService urlCodeService;
+
+    @Autowired
+    URLCodeServiceTest(URLCodeService urlCodeService) {
+        this.urlCodeService = urlCodeService;
+    }
 
     @Test
     void idToCodeToIdRemainsTheSame() throws IllegalURLCodeException {
