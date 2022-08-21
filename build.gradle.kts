@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.testing.logging.TestLogEvent.*
+
 plugins {
 	java
 	id("org.springframework.boot") version "2.7.2"
@@ -39,4 +41,8 @@ dependencies {
 
 tasks.test {
 	useJUnitPlatform()
+
+	testLogging {
+		events = setOf(PASSED, FAILED, SKIPPED)
+	}
 }
