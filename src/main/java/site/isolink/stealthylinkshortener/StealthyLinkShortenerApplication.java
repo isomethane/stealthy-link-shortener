@@ -9,7 +9,6 @@ import org.springframework.context.annotation.PropertySource;
  */
 @SpringBootApplication
 @PropertySource("classpath:public.properties")
-@PropertySource("classpath:hidden.properties")
 public class StealthyLinkShortenerApplication {
 	/**
 	 * Application main function.
