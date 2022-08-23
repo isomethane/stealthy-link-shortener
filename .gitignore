@@ -35,6 +35,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-### Hidden properties ###
-**/hidden.properties
