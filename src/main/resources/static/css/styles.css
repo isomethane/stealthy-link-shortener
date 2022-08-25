@@ -1,0 +1,29 @@
+html {
+    font-family: FreeMono, monospace;
+    font-size: x-large;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-code-title {
+    font-size: 200px;
+    color: #edbf1e;
+    text-shadow: #dc9f11 3px 3px;
+
+    margin: 0;
+}
+
+.error-img {
+    height: 400px;
+
+    margin-top: 100px;
+}

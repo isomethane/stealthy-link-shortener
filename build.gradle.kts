@@ -27,6 +27,7 @@ dependencies {
 
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
 
 	implementation("com.google.guava:guava:31.1-jre")
