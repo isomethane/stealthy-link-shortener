@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 /**
  * Thrown if specified link does not exist.
  */
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
+@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Link not found")
 public class LinkNotFoundException extends Exception {
     /**
      * Constructs a {@link LinkNotFoundException} with no detail message.

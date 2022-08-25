@@ -3,17 +3,17 @@ package site.isolink.stealthylinkshortener.service.link;
 import lombok.NonNull;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import site.isolink.stealthylinkshortener.data.LinkRepository;
 import site.isolink.stealthylinkshortener.data.StatisticsRepository;
+import site.isolink.stealthylinkshortener.exception.IllegalRequestException;
 import site.isolink.stealthylinkshortener.exception.IllegalURLCodeException;
 import site.isolink.stealthylinkshortener.exception.LinkNotFoundException;
 import site.isolink.stealthylinkshortener.model.Link;
 import site.isolink.stealthylinkshortener.model.Statistics;
 import site.isolink.stealthylinkshortener.service.code.URLCodeService;
 import site.isolink.stealthylinkshortener.service.ip.IPLocationStatus;
-
-import java.net.MalformedURLException;
 
 import static site.isolink.stealthylinkshortener.util.Conditions.require;
 
@@ -25,6 +25,9 @@ public class LinkServiceImpl implements LinkService {
     private final LinkRepository linkRepository;
     private final StatisticsRepository statisticsRepository;
     private final URLCodeService urlCodeService;
+
+    @Value("${server.url}")
+    private String serverUrl;
 
     /**
      * Class constructor.
@@ -46,11 +49,14 @@ public class LinkServiceImpl implements LinkService {
      */
     @Override
     @NonNull
-    public String putLink(@NonNull String targetAddress, @NonNull String restrictedAddress) throws MalformedURLException {
+    public String putLink(@NonNull String targetAddress, @NonNull String restrictedAddress) throws IllegalRequestException {
+        require(!targetAddress.startsWith(serverUrl) && !restrictedAddress.startsWith(serverUrl),
+            () -> new IllegalRequestException("Link must not redirect to " + serverUrl));
+
         require(UrlValidator.getInstance().isValid(targetAddress),
-            () -> new MalformedURLException(targetAddress));
+            () -> new IllegalRequestException("Malformed URL: " + targetAddress));
         require(UrlValidator.getInstance().isValid(restrictedAddress),
-            () -> new MalformedURLException(restrictedAddress));
+            () -> new IllegalRequestException("Malformed URL: " + restrictedAddress));
 
         Link link = linkRepository.save(new Link(targetAddress, restrictedAddress));
         statisticsRepository.save(new Statistics(link.getId(), 0L, 0L, 0L));
@@ -95,5 +101,13 @@ public class LinkServiceImpl implements LinkService {
         } catch (IllegalURLCodeException e) {
             throw new LinkNotFoundException(e.getMessage());
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public @NonNull String codeToLink(@NonNull String code) {
+        return serverUrl + "/" + code;
     }
 }

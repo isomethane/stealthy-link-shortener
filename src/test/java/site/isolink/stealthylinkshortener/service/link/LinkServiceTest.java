@@ -3,11 +3,11 @@ package site.isolink.stealthylinkshortener.service.link;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import site.isolink.stealthylinkshortener.exception.IllegalRequestException;
 import site.isolink.stealthylinkshortener.exception.LinkNotFoundException;
 import site.isolink.stealthylinkshortener.model.Statistics;
 import site.isolink.stealthylinkshortener.service.ip.IPLocationStatus;
 
-import java.net.MalformedURLException;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -31,7 +31,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void putLinkReturnsUniqueCodes() throws MalformedURLException {
+    void putLinkReturnsUniqueCodes() throws IllegalRequestException {
         Set<String> codes = new HashSet<>();
         for (int i = 0; i < 100000; i++) {
             String code = linkService.putLink(
@@ -45,17 +45,17 @@ class LinkServiceTest {
     @Test
     void putLinkMalformedURL() {
         assertThrows(
-            MalformedURLException.class,
+            IllegalRequestException.class,
             () -> linkService.putLink("not url", RESTRICTED_ADDRESS[0])
         );
         assertThrows(
-            MalformedURLException.class,
+                IllegalRequestException.class,
             () -> linkService.putLink(TARGET_ADDRESS[0], "not url")
         );
     }
 
     @Test
-    void getLink() throws MalformedURLException, LinkNotFoundException {
+    void getLink() throws LinkNotFoundException, IllegalRequestException {
         for (int i = 0; i < TARGET_ADDRESS.length; i++) {
             String code = linkService.putLink(TARGET_ADDRESS[i], RESTRICTED_ADDRESS[i]);
             assertEquals(TARGET_ADDRESS[i], linkService.getLink(code, IPLocationStatus.FREE));
@@ -73,7 +73,7 @@ class LinkServiceTest {
     }
 
     @Test
-    void getLinkStatistics() throws MalformedURLException, LinkNotFoundException {
+    void getLinkStatistics() throws LinkNotFoundException, IllegalRequestException {
         Random random = new Random(111);
 
         for (int i = 0; i < TARGET_ADDRESS.length; i++) {
