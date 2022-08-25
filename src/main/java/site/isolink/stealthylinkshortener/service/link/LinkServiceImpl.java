@@ -49,16 +49,16 @@ public class LinkServiceImpl implements LinkService {
      */
     @Override
     @NonNull
-    public String putLink(@NonNull String targetAddress, @NonNull String restrictedAddress) throws IllegalRequestException {
-        require(!targetAddress.startsWith(serverUrl) && !restrictedAddress.startsWith(serverUrl),
+    public String putLink(@NonNull String targetAddress, @NonNull String safeAddress) throws IllegalRequestException {
+        require(!targetAddress.startsWith(serverUrl) && !safeAddress.startsWith(serverUrl),
             () -> new IllegalRequestException("Link must not redirect to " + serverUrl));
 
         require(UrlValidator.getInstance().isValid(targetAddress),
             () -> new IllegalRequestException("Malformed URL: " + targetAddress));
-        require(UrlValidator.getInstance().isValid(restrictedAddress),
-            () -> new IllegalRequestException("Malformed URL: " + restrictedAddress));
+        require(UrlValidator.getInstance().isValid(safeAddress),
+            () -> new IllegalRequestException("Malformed URL: " + safeAddress));
 
-        Link link = linkRepository.save(new Link(targetAddress, restrictedAddress));
+        Link link = linkRepository.save(new Link(targetAddress, safeAddress));
         statisticsRepository.save(new Statistics(link.getId(), 0L, 0L, 0L));
         return urlCodeService.idToCode(link.getId());
     }

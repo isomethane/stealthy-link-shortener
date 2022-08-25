@@ -13,12 +13,12 @@ public interface LinkService {
     /**
      * Saves link and obtains unique short code for it.
      * @param targetAddress address to redirect clients outside the restricted area
-     * @param restrictedAddress address to redirect clients inside the restricted area
+     * @param safeAddress address to redirect clients inside the restricted area
      * @return alphanumerical short code
      * @throws IllegalRequestException if any link in this request does not satisfy conditions
      */
     @NonNull
-    String putLink(@NonNull String targetAddress, @NonNull String restrictedAddress) throws IllegalRequestException;
+    String putLink(@NonNull String targetAddress, @NonNull String safeAddress) throws IllegalRequestException;
 
     /**
      * Returns redirect URL for specified code depending on client's {@link IPLocationStatus}.

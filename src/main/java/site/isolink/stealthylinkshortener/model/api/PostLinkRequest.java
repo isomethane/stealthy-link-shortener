@@ -12,5 +12,5 @@ public class PostLinkRequest {
     private String targetAddress;
 
     @NonNull
-    private String restrictedAddress;
+    private String safeAddress;
 }

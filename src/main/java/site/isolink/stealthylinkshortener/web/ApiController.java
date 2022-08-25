@@ -39,7 +39,7 @@ public class ApiController {
      */
     @PostMapping("/shorten")
     public ResponseEntity<PostLinkResponse> shortenLink(@RequestBody PostLinkRequest request) throws IllegalRequestException {
-        String code = linkService.putLink(request.getTargetAddress(), request.getRestrictedAddress());
+        String code = linkService.putLink(request.getTargetAddress(), request.getSafeAddress());
         String url = linkService.codeToLink(code);
         log.info("Created {}", url);
         return ResponseEntity.ok(new PostLinkResponse(url));
