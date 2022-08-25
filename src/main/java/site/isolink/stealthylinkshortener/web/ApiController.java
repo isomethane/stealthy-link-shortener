@@ -34,8 +34,9 @@ public class ApiController {
 
     /**
      * Shorten link API method.
-     * @param request link info
+     * @param request request information
      * @return {@link PostLinkResponse} with created URL
+     * @throws IllegalRequestException if any link in this request does not satisfy conditions
      */
     @PostMapping("/shorten")
     public ResponseEntity<PostLinkResponse> shortenLink(@RequestBody PostLinkRequest request) throws IllegalRequestException {
