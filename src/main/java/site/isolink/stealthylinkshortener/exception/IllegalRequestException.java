@@ -5,12 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Thrown if API request is illegal:
- *
- * <ul>
- *     <li>if either of URLs is not a valid URL</li>
- *     <li>if either of URLs leads to this server</li>
- * </ul>
+ * Thrown if API request is illegal.
  */
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class IllegalRequestException extends Exception {

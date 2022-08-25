@@ -50,9 +50,6 @@ public class LinkServiceImpl implements LinkService {
     @Override
     @NonNull
     public String putLink(@NonNull String targetAddress, @NonNull String safeAddress) throws IllegalRequestException {
-        require(!targetAddress.startsWith(serverUrl) && !safeAddress.startsWith(serverUrl),
-            () -> new IllegalRequestException("Link must not redirect to " + serverUrl));
-
         require(UrlValidator.getInstance().isValid(targetAddress),
             () -> new IllegalRequestException("Malformed URL: " + targetAddress));
         require(UrlValidator.getInstance().isValid(safeAddress),
