@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import site.isolink.stealthylinkshortener.exception.IllegalRequestException;
 import site.isolink.stealthylinkshortener.exception.LinkNotFoundException;
 import site.isolink.stealthylinkshortener.model.Statistics;
-import site.isolink.stealthylinkshortener.model.api.GetStatisticsResponse;
-import site.isolink.stealthylinkshortener.model.api.PostLinkRequest;
-import site.isolink.stealthylinkshortener.model.api.PostLinkResponse;
+import site.isolink.stealthylinkshortener.web.api.GetStatisticsResponse;
+import site.isolink.stealthylinkshortener.web.api.PostLinkRequest;
+import site.isolink.stealthylinkshortener.web.api.PostLinkResponse;
 import site.isolink.stealthylinkshortener.service.link.LinkService;
 
 /**

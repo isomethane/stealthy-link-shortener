@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/css/styles.css">
+        <title>Shorten URL</title>
+    </head>
+    <body>
+        <form class="shorten-link-form" th:object="${shortenLinkForm}" method="post">
+            <div class="link-input">
+                <input th:class="${#fields.hasErrors('targetAddress')} ? 'input-url error' : 'input-url'" type="url" placeholder="Enter URL" th:field="*{targetAddress}">
+                <button class="button submit-button" type="submit">Shorten</button>
+            </div>
+            <h3 class="form-heading">Choose safe option for users from <span th:text="${restrictedCountries}">Restricted countries</span>:</h3>
+            <ul class="safe-link-options">
+                <li class="safe-link" th:each="safeLink : ${safeLinks}">
+                    <input class="link-radio invisible" type="radio" th:id="${safeLink.name()}" th:value="${safeLink.name()}" th:field="*{safeAddressOption}">
+                    <label class="link-name" th:for="${safeLink.name()}" th:text="${safeLink.name()}">Link name</label>
+                    <a class="link-url" th:href="${safeLink.url()}" th:text="${safeLink.url()}">URL</a>
+                </li>
+                <li class="safe-link">
+                    <input class="link-radio invisible" type="radio" id="Custom" th:value="${shortenLinkForm.CUSTOM_SAFE_OPTION}" th:field="*{safeAddressOption}">
+                    <label class="link-name" for="Custom">Custom</label>
+                    <input th:class="${#fields.hasErrors('customSafeAddress')} ? 'input-url error' : 'input-url'" type="url" placeholder="Enter safe URL" th:field="*{customSafeAddress}">
+                </li>
+            </ul>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/css/styles.css">
+        <script src="/js/actions.js"></script>
+        <title>URL info</title>
+    </head>
+    <body>
+        <div class="link-info">
+            <section class="short-link-info">
+                <p class="short-link" id="short-link" th:text="${linkInfo.getShortLink()}">URL</p>
+                <button class="button copy-link-button" id="copy-button" type="button" onclick="copyShortLink()">Copy</button>
+            </section>
+            <section class="link-additional-info">
+                <p class="info-line">Target URL: <a th:href="${linkInfo.getTargetLink()}" th:text="${linkInfo.getTargetLink()}">URL</a></p>
+                <p class="info-line">Safe URL: <a th:href="${linkInfo.getSafeLink()}" th:text="${linkInfo.getSafeLink()}">URL</a></p>
+                <p class="info-line"><a th:href="${linkInfo.getStatsLink()}">Track the number of clicks</a></p>
+                <p class="info-line"><a href="/">Shorten another URL</a></p>
+            </section>
+        </div>
+    </body>
+</html>

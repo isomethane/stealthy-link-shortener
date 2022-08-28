@@ -1,4 +1,4 @@
-package site.isolink.stealthylinkshortener.model.api;
+package site.isolink.stealthylinkshortener.web.api;
 
 import lombok.Data;
 import lombok.NonNull;

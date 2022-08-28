@@ -44,7 +44,7 @@ public class RedirectController {
      * @throws LinkNotFoundException if there is no such link
      */
     @GetMapping("/{code}")
-    String getLink(@PathVariable("code") String code, HttpServletRequest request) throws LinkNotFoundException {
+    public String getLink(@PathVariable("code") String code, HttpServletRequest request) throws LinkNotFoundException {
         return "redirect:" + linkService.getLink(code, ipService.locateClientIP(request));
     }
 }

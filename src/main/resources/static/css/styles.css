@@ -1,6 +1,41 @@
+ul[class],
+ol[class] {
+    padding: 0;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+    margin: 0;
+}
+
+ul[class],
+ol[class] {
+    list-style: none;
+}
+
+input,
+button,
 html {
     font-family: FreeMono, monospace;
     font-size: x-large;
+}
+
+html {
+    height: 100%;
+
+    padding: 10px;
 
     display: flex;
     align-items: center;
@@ -8,6 +43,8 @@ html {
 }
 
 body {
+    height: 100%;
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,6 +61,96 @@ body {
 
 .error-img {
     height: 400px;
+}
 
-    margin-top: 100px;
+.invisible {
+    display: none;
+}
+
+.form-heading {
+    margin: 24px;
+    font-weight: normal;
+}
+
+.link-input,
+.safe-link-options,
+.short-link-info {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    align-items: center;
+    column-gap: 10px;
+    row-gap: 10px;
+}
+
+.link-input,
+.short-link-info {
+    width: 100%;
+
+    grid-template-columns: 1fr max-content;
+}
+
+.shorten-link-form,
+.safe-link {
+    display: contents;
+}
+
+.link-name,
+.button {
+    display: block;
+    padding: 15px;
+
+    text-align: center;
+
+    background-color: #eaf0f5;
+
+    border: none;
+    border-radius: 4px;
+
+    cursor: pointer;
+}
+
+.link-radio:not(:checked) ~ .link-name:hover {
+    background-color: #d7dde3;
+}
+
+.link-radio:checked ~ .link-name,
+.button {
+    background-color: #ffda63;
+}
+
+.button:hover {
+    background-color: #edbf1e;
+}
+
+.link-url {
+    font-size: medium;
+}
+
+.input-url,
+.input-url:focus,
+.short-link {
+    padding: 4px;
+
+    outline: none;
+    border: 2px solid #d7dde3;
+
+    align-self: stretch;
+}
+
+.short-link {
+    padding: 13px;
+}
+
+.error,
+.error:focus {
+    border-color: red;
+}
+
+.info-line {
+    margin-top: 15px;
+}
+
+.copy-done,
+.copy-done:hover {
+    background-color: #66cd00;
 }
