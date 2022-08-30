@@ -35,16 +35,16 @@ public class RedirectController {
     }
 
     /**
-     * Resolves request with specified code and redirects
+     * Resolves URL with specified id and redirects
      * to target address if client is outside the restricted area
      * and to safe address otherwise.
-     * @param code link code
+     * @param id link id
      * @param request request information
      * @return redirect destination
      * @throws LinkNotFoundException if there is no such link
      */
-    @GetMapping("/{code}")
-    public String getLink(@PathVariable("code") String code, HttpServletRequest request) throws LinkNotFoundException {
-        return "redirect:" + linkService.getLink(code, ipService.locateClientIP(request));
+    @GetMapping("/{id}")
+    public String getLink(@PathVariable("id") String id, HttpServletRequest request) throws LinkNotFoundException {
+        return "redirect:" + linkService.getLink(id, ipService.locateClientIP(request));
     }
 }

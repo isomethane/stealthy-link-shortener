@@ -11,7 +11,7 @@ import lombok.NonNull;
 @AllArgsConstructor
 public class GetStatisticsResponse {
     @NonNull
-    private String code;
+    private String id;
 
     private long targetClicks;
 

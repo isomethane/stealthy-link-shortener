@@ -1,8 +1,8 @@
 package site.isolink.stealthylinkshortener.model;
 
 import lombok.*;
-
-import javax.persistence.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 /**
  * Represents shortened URL entity stored in database.
@@ -10,14 +10,13 @@ import javax.persistence.*;
  * Stores numerical link id and separate URL addresses for clients inside and outside the restricted area.
  */
 @Data
-@Entity
+@Document
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class Link {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @MongoId
+    @NonNull
+    private String id;
 
     @NonNull
     private String targetAddress;

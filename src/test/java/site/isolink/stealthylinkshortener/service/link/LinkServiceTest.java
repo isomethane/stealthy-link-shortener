@@ -3,6 +3,11 @@ package site.isolink.stealthylinkshortener.service.link;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import site.isolink.stealthylinkshortener.exception.IllegalRequestException;
 import site.isolink.stealthylinkshortener.exception.LinkNotFoundException;
 import site.isolink.stealthylinkshortener.model.Statistics;
@@ -14,6 +19,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Testcontainers
 @SpringBootTest
 class LinkServiceTest {
     private static final String[] TARGET_ADDRESS = {
@@ -25,20 +31,28 @@ class LinkServiceTest {
 
     private final LinkService linkService;
 
+    @Container
+    static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:5.0.11");
+
+    @DynamicPropertySource
+    static void setProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
+    }
+
     @Autowired
     LinkServiceTest(LinkService linkService) {
         this.linkService = linkService;
     }
 
     @Test
-    void putLinkReturnsUniqueCodes() throws IllegalRequestException {
-        Set<String> codes = new HashSet<>();
-        for (int i = 0; i < 100000; i++) {
-            String code = linkService.putLink(
+    void putLinkReturnsUniqueIds() throws IllegalRequestException {
+        Set<String> ids = new HashSet<>();
+        for (int i = 0; i < 1000; i++) {
+            String id = linkService.putLink(
                 TARGET_ADDRESS[i % TARGET_ADDRESS.length], RESTRICTED_ADDRESS[i % RESTRICTED_ADDRESS.length]
             );
-            assertFalse(codes.contains(code));
-            codes.add(code);
+            assertFalse(ids.contains(id));
+            ids.add(id);
         }
     }
 
@@ -57,10 +71,10 @@ class LinkServiceTest {
     @Test
     void getLink() throws LinkNotFoundException, IllegalRequestException {
         for (int i = 0; i < TARGET_ADDRESS.length; i++) {
-            String code = linkService.putLink(TARGET_ADDRESS[i], RESTRICTED_ADDRESS[i]);
-            assertEquals(TARGET_ADDRESS[i], linkService.getLink(code, IPLocationStatus.FREE));
-            assertEquals(RESTRICTED_ADDRESS[i], linkService.getLink(code, IPLocationStatus.RESTRICTED));
-            assertEquals(RESTRICTED_ADDRESS[i], linkService.getLink(code, IPLocationStatus.UNKNOWN));
+            String id = linkService.putLink(TARGET_ADDRESS[i], RESTRICTED_ADDRESS[i]);
+            assertEquals(TARGET_ADDRESS[i], linkService.getLink(id, IPLocationStatus.FREE));
+            assertEquals(RESTRICTED_ADDRESS[i], linkService.getLink(id, IPLocationStatus.RESTRICTED));
+            assertEquals(RESTRICTED_ADDRESS[i], linkService.getLink(id, IPLocationStatus.UNKNOWN));
         }
     }
 
@@ -77,24 +91,24 @@ class LinkServiceTest {
         Random random = new Random(111);
 
         for (int i = 0; i < TARGET_ADDRESS.length; i++) {
-            String code = linkService.putLink(TARGET_ADDRESS[i], RESTRICTED_ADDRESS[i]);
+            String id = linkService.putLink(TARGET_ADDRESS[i], RESTRICTED_ADDRESS[i]);
 
             int targetClicks = random.nextInt(20);
             for (int c = 0; c < targetClicks; c++) {
-                linkService.getLink(code, IPLocationStatus.FREE);
+                linkService.getLink(id, IPLocationStatus.FREE);
             }
 
             int restrictedClicks = random.nextInt(20);
             for (int c = 0; c < restrictedClicks; c++) {
-                linkService.getLink(code, IPLocationStatus.RESTRICTED);
+                linkService.getLink(id, IPLocationStatus.RESTRICTED);
             }
 
             int unknownClicks = random.nextInt(20);
             for (int c = 0; c < unknownClicks; c++) {
-                linkService.getLink(code, IPLocationStatus.UNKNOWN);
+                linkService.getLink(id, IPLocationStatus.UNKNOWN);
             }
 
-            Statistics statistics = linkService.getLinkStatistics(code);
+            Statistics statistics = linkService.getLinkStatistics(id);
             assertEquals(targetClicks, statistics.getTargetClicks());
             assertEquals(restrictedClicks, statistics.getRestrictedClicks());
             assertEquals(unknownClicks, statistics.getUnknownClicks());

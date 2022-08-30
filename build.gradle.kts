@@ -21,9 +21,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
-	implementation("com.h2database:h2:2.1.214") // TODO use normal db
 
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -37,7 +36,9 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("com.h2database:h2:2.1.214")
+	testImplementation("org.testcontainers:testcontainers:1.17.3")
+	testImplementation("org.testcontainers:junit-jupiter:1.17.3")
+	testImplementation("org.testcontainers:mongodb:1.17.3")
 }
 
 tasks.test {

@@ -40,23 +40,23 @@ public class ApiController {
      */
     @PostMapping("/shorten")
     public ResponseEntity<PostLinkResponse> shortenLink(@RequestBody PostLinkRequest request) throws IllegalRequestException {
-        String code = linkService.putLink(request.getTargetAddress(), request.getSafeAddress());
-        String url = linkService.codeToLink(code);
+        String id = linkService.putLink(request.getTargetAddress(), request.getSafeAddress());
+        String url = linkService.linkWithId(id);
         log.info("Created {}", url);
         return ResponseEntity.ok(new PostLinkResponse(url));
     }
 
     /**
      * Get statistics API method.
-     * @param code link code
+     * @param id link id
      * @return click statistics
      * @throws LinkNotFoundException if there is no such link
      */
-    @GetMapping("/stats/{code}")
-    public ResponseEntity<GetStatisticsResponse> getStatistics(@PathVariable("code") String code) throws LinkNotFoundException {
-        Statistics statistics = linkService.getLinkStatistics(code);
+    @GetMapping("/stats/{id}")
+    public ResponseEntity<GetStatisticsResponse> getStatistics(@PathVariable("id") String id) throws LinkNotFoundException {
+        Statistics statistics = linkService.getLinkStatistics(id);
         return ResponseEntity.ok(new GetStatisticsResponse(
-            code,
+            id,
             statistics.getTargetClicks(),
             statistics.getRestrictedClicks(),
             statistics.getUnknownClicks()

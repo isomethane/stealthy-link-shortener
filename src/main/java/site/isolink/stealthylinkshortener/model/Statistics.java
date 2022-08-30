@@ -1,8 +1,8 @@
 package site.isolink.stealthylinkshortener.model;
 
 import lombok.*;
-
-import javax.persistence.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 /**
  * Click statistics for {@link Link}.
@@ -10,20 +10,16 @@ import javax.persistence.*;
  * Stores number of clicks from inside and outside the restricted area and from unknown locations.
  */
 @Data
-@Entity
+@Document
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 @AllArgsConstructor
 public class Statistics {
-    @Id
-    @NonNull
-    private Long linkId;
+    @MongoId
+    private String id;
 
-    @NonNull
-    private Long targetClicks;
+    private long targetClicks;
 
-    @NonNull
-    private Long restrictedClicks;
+    private long restrictedClicks;
 
-    @NonNull
-    private Long unknownClicks;
+    private long unknownClicks;
 }

@@ -11,39 +11,39 @@ import site.isolink.stealthylinkshortener.service.ip.IPLocationStatus;
  */
 public interface LinkService {
     /**
-     * Saves link and obtains unique short code for it.
+     * Saves link and returns its unique id.
      * @param targetAddress address to redirect clients outside the restricted area
      * @param safeAddress address to redirect clients inside the restricted area
-     * @return alphanumerical short code
+     * @return link id
      * @throws IllegalRequestException if any link in this request does not satisfy conditions
      */
     @NonNull
     String putLink(@NonNull String targetAddress, @NonNull String safeAddress) throws IllegalRequestException;
 
     /**
-     * Returns redirect URL for specified code depending on client's {@link IPLocationStatus}.
-     * @param code link code
+     * Returns redirect URL for specified link id depending on client's {@link IPLocationStatus}.
+     * @param id link id
      * @param location client location status
      * @return redirect URL
-     * @throws LinkNotFoundException if there is no link with specified code
+     * @throws LinkNotFoundException if there is no link with the specified id
      */
     @NonNull
-    String getLink(@NonNull String code, @NonNull IPLocationStatus location) throws LinkNotFoundException;
+    String getLink(@NonNull String id, @NonNull IPLocationStatus location) throws LinkNotFoundException;
 
     /**
-     * Returns click statistics for specified code.
-     * @param code link code
+     * Returns click statistics for specified link id.
+     * @param id link id
      * @return link click statistics
-     * @throws LinkNotFoundException if there is no link with specified code
+     * @throws LinkNotFoundException if there is no link with the specified id
      */
     @NonNull
-    Statistics getLinkStatistics(@NonNull String code) throws LinkNotFoundException;
+    Statistics getLinkStatistics(@NonNull String id) throws LinkNotFoundException;
 
     /**
-     * Returns URL with the specified short code;
-     * @param code link code
+     * Returns URL with the specified id.
+     * @param id link id
      * @return URL
      */
     @NonNull
-    String codeToLink(@NonNull String code);
+    String linkWithId(@NonNull String id);
 }

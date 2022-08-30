@@ -8,11 +8,10 @@ import org.springframework.stereotype.Service;
 import site.isolink.stealthylinkshortener.data.LinkRepository;
 import site.isolink.stealthylinkshortener.data.StatisticsRepository;
 import site.isolink.stealthylinkshortener.exception.IllegalRequestException;
-import site.isolink.stealthylinkshortener.exception.IllegalURLCodeException;
 import site.isolink.stealthylinkshortener.exception.LinkNotFoundException;
 import site.isolink.stealthylinkshortener.model.Link;
 import site.isolink.stealthylinkshortener.model.Statistics;
-import site.isolink.stealthylinkshortener.service.code.URLCodeService;
+import site.isolink.stealthylinkshortener.service.id.IdService;
 import site.isolink.stealthylinkshortener.service.ip.IPLocationStatus;
 
 import static site.isolink.stealthylinkshortener.util.Conditions.require;
@@ -24,7 +23,7 @@ import static site.isolink.stealthylinkshortener.util.Conditions.require;
 public class LinkServiceImpl implements LinkService {
     private final LinkRepository linkRepository;
     private final StatisticsRepository statisticsRepository;
-    private final URLCodeService urlCodeService;
+    private final IdService idService;
 
     @Value("${server.url}")
     private String serverUrl;
@@ -33,15 +32,15 @@ public class LinkServiceImpl implements LinkService {
      * Class constructor.
      * @param linkRepository Link CRUD repository
      * @param statisticsRepository Link click statistics CRUD repository
-     * @param urlCodeService converter between id and URL code
+     * @param idService id generator
      */
     @Autowired
     public LinkServiceImpl(@NonNull LinkRepository linkRepository,
                            @NonNull StatisticsRepository statisticsRepository,
-                           @NonNull URLCodeService urlCodeService) {
+                           @NonNull IdService idService) {
         this.linkRepository = linkRepository;
         this.statisticsRepository = statisticsRepository;
-        this.urlCodeService = urlCodeService;
+        this.idService = idService;
     }
 
     /**
@@ -55,9 +54,10 @@ public class LinkServiceImpl implements LinkService {
         require(UrlValidator.getInstance().isValid(safeAddress),
             () -> new IllegalRequestException("Malformed URL: " + safeAddress));
 
-        Link link = linkRepository.save(new Link(targetAddress, safeAddress));
-        statisticsRepository.save(new Statistics(link.getId(), 0L, 0L, 0L));
-        return urlCodeService.idToCode(link.getId());
+        String id = idService.generateId();
+        linkRepository.save(new Link(id, targetAddress, safeAddress));
+        statisticsRepository.save(new Statistics(id, 0L, 0L, 0L));
+        return id;
     }
 
     /**
@@ -65,26 +65,22 @@ public class LinkServiceImpl implements LinkService {
      */
     @Override
     @NonNull
-    public String getLink(@NonNull String code, @NonNull IPLocationStatus location) throws LinkNotFoundException {
-        try {
-            Link link = linkRepository.findById(urlCodeService.codeToId(code)).orElseThrow(LinkNotFoundException::new);
-            return switch (location) {
-                case FREE -> {
-                    statisticsRepository.addTargetClick(link.getId());
-                    yield link.getTargetAddress();
-                }
-                case RESTRICTED -> {
-                    statisticsRepository.addRestrictedClick(link.getId());
-                    yield link.getSafeAddress();
-                }
-                case UNKNOWN -> {
-                    statisticsRepository.addUnknownClick(link.getId());
-                    yield link.getSafeAddress();
-                }
-            };
-        } catch (IllegalURLCodeException e) {
-            throw new LinkNotFoundException(e.getMessage());
-        }
+    public String getLink(@NonNull String id, @NonNull IPLocationStatus location) throws LinkNotFoundException {
+        Link link = linkRepository.findById(id).orElseThrow(LinkNotFoundException::new);
+        return switch (location) {
+            case FREE -> {
+                statisticsRepository.findAndIncrementTargetClicksById(id);
+                yield link.getTargetAddress();
+            }
+            case RESTRICTED -> {
+                statisticsRepository.findAndIncrementRestrictedClicksById(id);
+                yield link.getSafeAddress();
+            }
+            case UNKNOWN -> {
+                statisticsRepository.findAndIncrementUnknownClicksById(id);
+                yield link.getSafeAddress();
+            }
+        };
     }
 
     /**
@@ -92,19 +88,15 @@ public class LinkServiceImpl implements LinkService {
      */
     @Override
     @NonNull
-    public Statistics getLinkStatistics(@NonNull String code) throws LinkNotFoundException {
-        try {
-            return statisticsRepository.findById(urlCodeService.codeToId(code)).orElseThrow(LinkNotFoundException::new);
-        } catch (IllegalURLCodeException e) {
-            throw new LinkNotFoundException(e.getMessage());
-        }
+    public Statistics getLinkStatistics(@NonNull String id) throws LinkNotFoundException {
+        return statisticsRepository.findById(id).orElseThrow(LinkNotFoundException::new);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public @NonNull String codeToLink(@NonNull String code) {
-        return serverUrl + "/" + code;
+    public @NonNull String linkWithId(@NonNull String id) {
+        return serverUrl + "/" + id;
     }
 }

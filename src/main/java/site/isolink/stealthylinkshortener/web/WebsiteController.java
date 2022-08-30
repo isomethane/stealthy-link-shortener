@@ -81,13 +81,13 @@ public class WebsiteController {
         String targetAddress = shortenLinkForm.getTargetAddress();
         String safeAddress = ShortenLinkForm.CUSTOM_SAFE_OPTION.equals(shortenLinkForm.getSafeAddressOption()) ?
                 shortenLinkForm.getCustomSafeAddress() : safeLinks.get(shortenLinkForm.getSafeAddressOption());
-        String code = linkService.putLink(targetAddress, safeAddress);
-        String shortLink = linkService.codeToLink(code);
+        String id = linkService.putLink(targetAddress, safeAddress);
+        String shortLink = linkService.linkWithId(id);
 
         linkInfo.setShortLink(shortLink);
         linkInfo.setTargetLink(targetAddress);
         linkInfo.setSafeLink(safeAddress);
-        linkInfo.setStatsLink("/stats/" + code);
+        linkInfo.setStatsLink("/stats/" + id);
 
         return "redirect:/url";
     }
@@ -114,17 +114,17 @@ public class WebsiteController {
     /**
      * Shows URL click statistics.
      * @param model model to save statistics
-     * @param code URL short code
+     * @param id link id
      * @return statistics page
      * @throws LinkNotFoundException if there is no such link
      */
-    @GetMapping("/stats/{code}")
-    public String showLinkStatistics(Model model, @PathVariable String code) throws LinkNotFoundException {
-        Statistics stats = linkService.getLinkStatistics(code);
+    @GetMapping("/stats/{id}")
+    public String showLinkStatistics(Model model, @PathVariable String id) throws LinkNotFoundException {
+        Statistics stats = linkService.getLinkStatistics(id);
         model.addAttribute(
             "stats",
             new StatisticsInfo(
-                linkService.codeToLink(code),
+                linkService.linkWithId(id),
                 stats.getTargetClicks(),
                 stats.getRestrictedClicks(),
                 stats.getUnknownClicks()
