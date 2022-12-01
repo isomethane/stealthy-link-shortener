@@ -26,7 +26,7 @@ class IPServiceTest {
 
     @Test
     void locateIPRestricted() {
-        assertEquals(IPLocationStatus.RESTRICTED, ipService.locateIP("103.157.139.200")); // RU
+        assertEquals(IPLocationStatus.RESTRICTED, ipService.locateIP("2.61.92.40")); // RU
         assertEquals(IPLocationStatus.RESTRICTED, ipService.locateIP("31.148.251.114")); // BY
 
         assertEquals(IPLocationStatus.RESTRICTED, ipService.locateIP("2a02:6b8:a::a")); // RU
