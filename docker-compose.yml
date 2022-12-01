@@ -1,0 +1,38 @@
+version: "3.9"
+services:
+  web:
+    image: "isomethane/stealthy-link-shortener:0.0.1"
+    ports:
+      - "443:8443"
+    environment:
+      SPRING_DATA_MONGODB_HOST: mongo
+      SPRING_DATA_MONGODB_PORT: 27017
+      SPRING_DATA_MONGODB_USERNAME: admin
+      SPRING_DATA_MONGODB_DATABASE: isolink_db
+      SPRING_DATA_MONGODB_AUTHENTICATIONDATABASE: admin
+    env_file:
+      - secrets.env
+    depends_on:
+      - mongo
+    networks:
+      - mongo_network
+  mongo:
+    image: "mongo:6.0.1"
+    hostname: mongo
+    container_name: mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - "mongo-volume:/data/db"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_DATABASE: isolink_db
+    env_file:
+      - mongo_secrets.env
+    networks:
+      - mongo_network
+volumes:
+  mongo-volume:
+networks:
+  mongo_network:
+    driver: bridge
