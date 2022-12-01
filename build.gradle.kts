@@ -1,4 +1,5 @@
 import org.gradle.api.tasks.testing.logging.TestLogEvent.*
+import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
 plugins {
 	java
@@ -7,7 +8,7 @@ plugins {
 }
 
 group = "site.isolink"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
@@ -49,4 +50,8 @@ tasks.test {
 	testLogging {
 		events = setOf(PASSED, FAILED, SKIPPED)
 	}
+}
+
+tasks.named<BootBuildImage>("bootBuildImage") {
+	imageName = "isomethane/${rootProject.name}:${version}"
 }
