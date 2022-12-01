@@ -11,7 +11,7 @@
                 <input th:class="${#fields.hasErrors('targetAddress')} ? 'input-url error' : 'input-url'" type="url" placeholder="Enter URL" th:field="*{targetAddress}">
                 <button class="button submit-button" type="submit">Shorten</button>
             </div>
-            <h3 class="form-heading">Choose safe option for users from <span th:text="${restrictedCountries}">Restricted countries</span>:</h3>
+            <h3 class="form-heading">Choose safe option for <span th:text="${restrictedCountries}">Restricted countries</span>:</h3>
             <ul class="safe-link-options">
                 <li class="safe-link" th:each="safeLink : ${safeLinks}">
                     <input class="link-radio invisible" type="radio" th:id="${safeLink.name()}" th:value="${safeLink.name()}" th:field="*{safeAddressOption}">
