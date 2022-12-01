@@ -27,7 +27,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-	implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.14.0")
 
 	implementation("com.google.guava:guava:31.1-jre")
 	implementation("commons-validator:commons-validator:1.7")
@@ -36,9 +36,9 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.testcontainers:testcontainers:1.17.3")
-	testImplementation("org.testcontainers:junit-jupiter:1.17.3")
-	testImplementation("org.testcontainers:mongodb:1.17.3")
+	testImplementation("org.testcontainers:testcontainers:1.17.6")
+	testImplementation("org.testcontainers:junit-jupiter:1.17.6")
+	testImplementation("org.testcontainers:mongodb:1.17.6")
 }
 
 tasks.test {
