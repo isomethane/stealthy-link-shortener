@@ -4,6 +4,7 @@ services:
     image: "isomethane/stealthy-link-shortener:0.0.1"
     ports:
       - "443:8443"
+      - "80:8080"
     environment:
       SPRING_DATA_MONGODB_HOST: mongo
       SPRING_DATA_MONGODB_PORT: 27017
