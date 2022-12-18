@@ -7,3 +7,13 @@ function copyShortLink() {
         setTimeout(() => copyButton.classList.remove("copy-done"), 1000);
     });
 }
+
+function onSafeOptionChange(radio) {
+    let customUrlInput = document.getElementById("custom-url");
+    if (radio.id === "Custom" && radio.checked) {
+        customUrlInput.removeAttribute("disabled");
+        customUrlInput.focus();
+    } else {
+        customUrlInput.setAttribute("disabled", "");
+    }
+}

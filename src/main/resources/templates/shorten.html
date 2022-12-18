@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="/css/styles.css">
+        <script src="/js/actions.js"></script>
         <title>Shorten URL</title>
     </head>
     <body>
@@ -14,14 +15,20 @@
             <h3 class="form-heading">Choose safe option for <span th:text="${restrictedCountries}">Restricted countries</span>:</h3>
             <ul class="safe-link-options">
                 <li class="safe-link" th:each="safeLink : ${safeLinks}">
-                    <input class="link-radio invisible" type="radio" th:id="${safeLink.name()}" th:value="${safeLink.name()}" th:field="*{safeAddressOption}">
+                    <input class="link-radio invisible" type="radio"
+                           th:id="${safeLink.name()}" th:value="${safeLink.name()}" th:field="*{safeAddressOption}"
+                           onchange="onSafeOptionChange(this)">
                     <label class="link-name" th:for="${safeLink.name()}" th:text="${safeLink.name()}">Link name</label>
                     <a class="link-url" th:href="${safeLink.url()}" th:text="${safeLink.url()}">URL</a>
                 </li>
                 <li class="safe-link">
-                    <input class="link-radio invisible" type="radio" id="Custom" th:value="${shortenLinkForm.CUSTOM_SAFE_OPTION}" th:field="*{safeAddressOption}">
+                    <input class="link-radio invisible" type="radio" id="Custom"
+                           th:value="${shortenLinkForm.CUSTOM_SAFE_OPTION}" th:field="*{safeAddressOption}"
+                           onchange="onSafeOptionChange(this)">
                     <label class="link-name" for="Custom">Custom</label>
-                    <input th:class="${#fields.hasErrors('customSafeAddress')} ? 'input-url error' : 'input-url'" type="url" placeholder="Enter safe URL" th:field="*{customSafeAddress}">
+                    <input th:class="${#fields.hasErrors('customSafeAddress')} ? 'input-url error' : 'input-url'"
+                           type="url" placeholder="Enter safe URL" th:field="*{customSafeAddress}"
+                           id="custom-url" disabled>
                 </li>
             </ul>
         </form>
