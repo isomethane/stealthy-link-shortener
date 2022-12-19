@@ -45,4 +45,19 @@ class IPServiceTest {
         assertEquals(IPLocationStatus.UNKNOWN, ipService.locateIP("fd12:3456:789a:1::1"));
         assertEquals(IPLocationStatus.UNKNOWN, ipService.locateIP("fe80::ffff:ffff:ffff:ffff"));
     }
+
+    @Test
+    void obfuscateIP() {
+        assertEquals("154.54.**.***", IPServiceImpl.obfuscateIP("154.54.40.179"));
+        assertEquals("109.106.*.***", IPServiceImpl.obfuscateIP("109.106.0.213"));
+        assertEquals("10.207.*.**", IPServiceImpl.obfuscateIP("10.207.4.62"));
+        assertEquals("172.16.*.*", IPServiceImpl.obfuscateIP("172.16.0.1"));
+        assertEquals("255.255.***.***", IPServiceImpl.obfuscateIP("255.255.255.255"));
+
+        assertEquals("2e39:9c39:011e:34c2:07b8:f0d9:****:****",
+            IPServiceImpl.obfuscateIP("2e39:9c39:011e:34c2:07b8:f0d9:68b8:257d"));
+        assertEquals("::", IPServiceImpl.obfuscateIP("::"));
+        assertEquals("fd12:3456:789a:*::*", IPServiceImpl.obfuscateIP("fd12:3456:789a:1::1"));
+        assertEquals("fe80::ffff:ffff:****:****", IPServiceImpl.obfuscateIP("fe80::ffff:ffff:ffff:ffff"));
+    }
 }

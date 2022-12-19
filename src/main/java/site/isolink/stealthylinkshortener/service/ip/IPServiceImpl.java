@@ -15,6 +15,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /**
@@ -24,6 +25,10 @@ import java.util.stream.Stream;
 @Service
 public class IPServiceImpl implements IPService {
     private static final String IP_API_URL = "http://ip-api.com/json";
+
+    private static final Pattern IPV4_LAST_SECTIONS = Pattern.compile("(?:\\.\\d+){2}$");
+    private static final Pattern IPV6_LAST_SECTIONS = Pattern.compile("(?::+\\w+){2}$");
+
     private final WebClient webClient = WebClient.create(IP_API_URL);
 
     @Value("${restricted-country-codes}")
@@ -84,10 +89,11 @@ public class IPServiceImpl implements IPService {
             if (Objects.requireNonNull(response.message) == IPLocationResponse.Message.INVALID_QUERY) {
                 throw new RuntimeException("Invalid query");
             }
+            log.info("IP location: Unknown ({})", obfuscateIP(ip));
             return IPLocationStatus.UNKNOWN;
         }
 
-        log.info("IP location: {} ({})", response.countryCode, ip);
+        log.info("IP location: {} ({})", response.countryCode, obfuscateIP(ip));
         if (restrictedCountryCodes.contains(Objects.requireNonNull(response.countryCode))) {
             return IPLocationStatus.RESTRICTED;
         }
@@ -98,7 +104,7 @@ public class IPServiceImpl implements IPService {
     private Optional<IPLocationResponse> requestIPLocation(@NonNull String ip) {
         final int MAX_RETRIES = 3;
 
-        log.info("Trying to locate IP {}", ip);
+        log.info("Trying to locate IP {}", obfuscateIP(ip));
         for (int i = 0; i < MAX_RETRIES; i++) {
             try {
                 IPLocationResponse response = webClient
@@ -111,11 +117,20 @@ public class IPServiceImpl implements IPService {
             } catch (Exception e) {
                 log.warn(
                     "Failed to locate IP {}: got exception {}({})",
-                    ip, e.getClass().getSimpleName(), e.getMessage()
+                    obfuscateIP(ip), e.getClass().getSimpleName(), e.getMessage()
                 );
             }
         }
         return Optional.empty();
+    }
+
+    static @NonNull String obfuscateIP(@NonNull String ip) {
+        if (ip.contains(".")) {
+            return IPV4_LAST_SECTIONS.matcher(ip)
+                .replaceFirst(matchResult -> matchResult.group().replaceAll("\\d", "*"));
+        }
+        return IPV6_LAST_SECTIONS.matcher(ip)
+            .replaceFirst(matchResult -> matchResult.group().replaceAll("\\w", "*"));
     }
 
     @Data
