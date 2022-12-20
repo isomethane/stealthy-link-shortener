@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   web:
-    image: "isomethane/stealthy-link-shortener:0.0.1"
+    image: "isomethane/stealthy-link-shortener:0.0.2"
     ports:
       - "443:443"
       - "80:80"
