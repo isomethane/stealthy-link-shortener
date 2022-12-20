@@ -1,5 +1,6 @@
 package site.isolink.stealthylinkshortener.web;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import site.isolink.stealthylinkshortener.exception.LinkNotFoundException;
 import site.isolink.stealthylinkshortener.service.ip.IPService;
 import site.isolink.stealthylinkshortener.service.link.LinkService;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Controller that resolves short links and redirects

@@ -3,8 +3,8 @@ import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
 plugins {
 	java
-	id("org.springframework.boot") version "2.7.2"
-	id("io.spring.dependency-management") version "1.0.12.RELEASE"
+	id("org.springframework.boot") version "3.0.0"
+	id("io.spring.dependency-management") version "1.1.0"
 }
 
 group = "site.isolink"
@@ -30,7 +30,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-	implementation("com.fasterxml.jackson.core:jackson-databind:2.14.0")
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.14.1")
 
 	implementation("com.google.guava:guava:31.1-jre")
 	implementation("commons-validator:commons-validator:1.7")
@@ -53,5 +53,5 @@ tasks.test {
 }
 
 tasks.named<BootBuildImage>("bootBuildImage") {
-	imageName = "isomethane/${rootProject.name}:${version}"
+	imageName.set("isomethane/${rootProject.name}:${version}")
 }

@@ -42,9 +42,9 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
             .csrf().disable()
-            .authorizeRequests()
+            .authorizeHttpRequests()
                 .requestMatchers(EndpointRequest.toAnyEndpoint().excluding("health", "info")).hasRole("ADMIN")
-                .antMatchers("/api/**").hasRole("ADMIN")
+                .requestMatchers("/api/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
             .and()
                 .httpBasic()

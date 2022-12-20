@@ -1,8 +1,8 @@
 package site.isolink.stealthylinkshortener.service.ip;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 /**

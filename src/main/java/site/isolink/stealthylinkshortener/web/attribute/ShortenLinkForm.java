@@ -1,9 +1,8 @@
 package site.isolink.stealthylinkshortener.web.attribute;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
-
-import javax.validation.constraints.NotBlank;
 
 /**
  * Represents shorten URL form.

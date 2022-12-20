@@ -1,5 +1,6 @@
 package site.isolink.stealthylinkshortener.web;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +19,6 @@ import site.isolink.stealthylinkshortener.web.attribute.ShortenLinkForm;
 import site.isolink.stealthylinkshortener.web.attribute.StatisticsInfo;
 import site.isolink.stealthylinkshortener.web.validation.ShortenLinkFormValidator;
 
-import javax.validation.Valid;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -56,7 +56,7 @@ public class WebsiteController {
      * Shows shorten URL form.
      * @return shorten URL form page
      */
-    @GetMapping
+    @GetMapping("/")
     public String showShortenLinkForm() {
         return "shorten";
     }
@@ -69,7 +69,7 @@ public class WebsiteController {
      * @return information page redirect if successful
      * @throws IllegalRequestException if request is still incorrect after validation (should not happen normally)
      */
-    @PostMapping
+    @PostMapping("/")
     public String postLink(@ModelAttribute("linkInfo") LinkInfo linkInfo,
                            @Valid ShortenLinkForm shortenLinkForm,
                            Errors errors) throws IllegalRequestException {

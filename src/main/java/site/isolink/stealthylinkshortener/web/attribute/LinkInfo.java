@@ -1,10 +1,9 @@
 package site.isolink.stealthylinkshortener.web.attribute;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * Represents full URL information to show user.
