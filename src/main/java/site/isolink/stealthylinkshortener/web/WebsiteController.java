@@ -19,6 +19,7 @@ import site.isolink.stealthylinkshortener.web.attribute.ShortenLinkForm;
 import site.isolink.stealthylinkshortener.web.attribute.StatisticsInfo;
 import site.isolink.stealthylinkshortener.web.validation.ShortenLinkFormValidator;
 
+import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -32,6 +33,8 @@ import java.util.stream.Collectors;
 @Controller
 @SessionAttributes("linkInfo")
 public class WebsiteController {
+    private static final int SOURCE_VERSION = 1;
+
     private final LinkService linkService;
     private final ShortenLinkFormValidator validator;
     @Value("#{${safe-links}}")
@@ -171,4 +174,13 @@ public class WebsiteController {
             .collect(Collectors.joining(", "));
     }
 
+    @ModelAttribute(name = "cssPath")
+    private String cssPath() {
+        return MessageFormat.format("/css/styles.css?v={0}", SOURCE_VERSION);
+    }
+
+    @ModelAttribute(name = "jsPath")
+    private String jsPath() {
+        return MessageFormat.format("/js/actions.js?v={0}", SOURCE_VERSION);
+    }
 }
