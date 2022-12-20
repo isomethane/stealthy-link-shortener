@@ -8,6 +8,20 @@ function copyShortLink() {
     });
 }
 
+function initShortenPage() {
+    onSafeOptionChange(document.getElementById("Custom"));
+    document.getElementsByName("safeAddressOption").forEach((radio) => {
+        radio.addEventListener("change", () => {
+            onSafeOptionChange(radio);
+        });
+    });
+    Array.from(document.getElementsByClassName("input-url")).forEach((inputField) => {
+        inputField.addEventListener("input", () => {
+            inputField.classList.remove("error");
+        })
+    })
+}
+
 function onSafeOptionChange(radio) {
     let customUrlInput = document.getElementById("custom-url");
     if (radio.id === "Custom" && radio.checked) {
@@ -15,5 +29,6 @@ function onSafeOptionChange(radio) {
         customUrlInput.focus();
     } else {
         customUrlInput.setAttribute("disabled", "");
+        customUrlInput.classList.remove("error");
     }
 }
