@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @Controller
 @SessionAttributes("linkInfo")
 public class WebsiteController {
-    private static final int SOURCE_VERSION = 1;
+    private static final int SOURCE_VERSION = 2;
 
     private final LinkService linkService;
     private final ShortenLinkFormValidator validator;
