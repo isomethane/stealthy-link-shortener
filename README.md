@@ -39,4 +39,4 @@ Try this URL shortener here: [isolink.site](https://isolink.site)
 The idea belongs to the Russian meme cabbage guy [@A_Kapustin](https://twitter.com/A_Kapustin).  
 [The twit](https://twitter.com/A_Kapustin/status/1531958391823863809):
 
-<img src="https://raw.githubusercontent.com/wiki/isomethane/stealthy-link-shortener/images/A_Kapustin_twit.png" alt="The twit with the idea of this project by @A_Kapustin" width="500"><img src="https://raw.githubusercontent.com/wiki/isomethane/stealthy-link-shortener/images/A_Kapustin_twit_en.png" alt="The twit with the idea of this project by @A_Kapustin translated into English" width="500">
+<img src="https://raw.githubusercontent.com/wiki/isomethane/stealthy-link-shortener/images/A_Kapustin_twit.png" alt="The twit with the idea of this project by @A_Kapustin" width="50%"><img src="https://raw.githubusercontent.com/wiki/isomethane/stealthy-link-shortener/images/A_Kapustin_twit_en.png" alt="The twit with the idea of this project by @A_Kapustin translated into English" width="50%">
