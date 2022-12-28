@@ -19,6 +19,7 @@ services:
       - mongo
     networks:
       - mongo_network
+    restart: on-failure
   mongo:
     image: "mongo:6.0.1"
     hostname: mongo
@@ -34,6 +35,7 @@ services:
       - mongo_secrets.env
     networks:
       - mongo_network
+    restart: on-failure
 volumes:
   mongo-volume:
 networks:
