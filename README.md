@@ -26,6 +26,10 @@ most of the unsafe resources are already blocked and cannot be accessed from Rus
 
 Try this URL shortener here: [isolink.site](https://isolink.site)
 
+## Demo
+
+<img src="https://raw.githubusercontent.com/wiki/isomethane/stealthy-link-shortener/videos/demo.gif" alt="Project usage demo" width="100%">
+
 ## Technologies
 
 - Java 17
